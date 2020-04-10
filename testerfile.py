@@ -1,6 +1,8 @@
 import sys
 from typing import List
-
+from numpy import linspace, diagonal
+from pandas import dataframe,series
+import tensorflow, pytorch,keras
 from loguru import logger
 from typing_extensions import Literal
 
@@ -11,6 +13,7 @@ from tiktok_bot.models.feed_enums import FeedType, PullType
 from tiktok_bot.models.post import Post
 from tiktok_bot.models.search import ChallengeInfo
 from tiktok_bot.models.user import CommonUserDetails, UserProfile
+from pandas import *
 
 
 class TikTokBot:
