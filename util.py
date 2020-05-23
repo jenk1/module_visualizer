@@ -1,6 +1,5 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-import matplotlib
 
 
 def clean_filename(file):
@@ -61,6 +60,13 @@ def create_color_key_dic(file, node_list, graph):
     The "root" node is the value for the green key. The nodes that
     are intermediate between the "root" and the leaf (actual imports)
     are yellow and the imports are the red ones
+
+    Args:
+        file (str): name of python file
+        node_list (str): list of nodes reporesenting imported modules
+        graph (nx graph): graph
+    Returns:
+        color_dic (dict): Dictionary of colors and respective nodes
     """
 
     color_dic = {'green': [clean_filename(file)], 'yellow': [], 'red': []}
@@ -242,3 +248,8 @@ def find_subgraph(node, graph, draw_graph=True, save_graph=False):
 
     if(save_graph):
         return node
+
+
+def find_subgraph_nx():
+    """Returns the subgraph using networkx method"""
+    pass
