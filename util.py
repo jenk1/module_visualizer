@@ -2,10 +2,12 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib
 
+
 def clean_filename(file):
     """Removes the filename extension"""
 
     return file.split('.')[0]
+
 
 def clean_imports(lst):
     """Add the documentation later Comment"""
@@ -51,17 +53,18 @@ def clean_imports(lst):
 
     return mod_lst
 
+
 def create_color_key_dic(file, node_list, graph):
     """Assigns nodes to a color depending on their location and builds graph
-    
+
     This method assigns all the nodes to one of three colors.
-    The "root" node is the value for the green key. The nodes that 
+    The "root" node is the value for the green key. The nodes that
     are intermediate between the "root" and the leaf (actual imports)
     are yellow and the imports are the red ones
-    """    
-    
+    """
+
     color_dic = {'green': [clean_filename(file)], 'yellow': [], 'red': []}
-    
+
     for i in node_list:
         if('.' in i):
             temp = i.split('.')
@@ -75,6 +78,7 @@ def create_color_key_dic(file, node_list, graph):
             color_dic['red'].append(i)
 
     return color_dic
+
 
 def create_color_val_dic(file, node_list, graph):
 
@@ -95,6 +99,7 @@ def create_color_val_dic(file, node_list, graph):
 
     return color_dic
 
+
 def color_key_dic(dictionary):
     """Summary
 
@@ -113,6 +118,7 @@ def color_key_dic(dictionary):
             new_dict[node] = colors
 
     return new_dict
+
 
 def color_val_dic(dictionary):
     """
@@ -133,6 +139,7 @@ def color_val_dic(dictionary):
         new_dict[dictionary[node]].append(node)
 
     return new_dict
+
 
 def draw_graph_colored(graph, color_dic):
     """Draws a graph with colored node_list
@@ -156,8 +163,10 @@ def draw_graph_colored(graph, color_dic):
             color_list.append('r')
 
     # used by the draw_networkx method
-    nx.draw_networkx(graph, with_labels=True, nodelist=node_list, node_color=color_list)
+    nx.draw_networkx(graph, with_labels=True, nodelist=node_list,
+                     node_color=color_list)
     plt.show()
+
 
 def draw_graph_default(graph):
     """Draw the default networkx graph"""
@@ -165,13 +174,14 @@ def draw_graph_default(graph):
     nx.draw_networkx(graph, with_labels=True)
     plt.show()
 
+
 def gather_nodes(filename):
     """Summary
-    
-    Takes a file as input and from there 
-    processes the file so that the output is a list of 
-    all the possible nodes as well as their paths 
-    an example of this would be having numpy and linspace 
+
+    Takes a file as input and from there
+    processes the file so that the output is a list of
+    all the possible nodes as well as their paths
+    an example of this would be having numpy and linspace
     as the two nodes in the graph and it would be dispalyed in the
     list as numpy.linspace
     """
@@ -184,18 +194,23 @@ def gather_nodes(filename):
     content = [i.lstrip().rstrip() for i in content]
 
     # gather just the import lines
-    all_imports = [line for line in content if line[0:6] == 'import' or line[0:4] == 'from']
+    all_imports = [line for line in content if line[0:6] == 'import' or
+                   line[0:4] == 'from']
 
     list_of_nodes = clean_imports(all_imports)
-    
+
     return list_of_nodes
 
+
 def find_subgraph(node, graph, draw_graph=True, save_graph=False):
-    
+    """ Shows the subgraph of a larger graph given a node
+
+    """
+
     # Later exception handle this too for node not in Graph
     if(node not in graph.nodes()):
-        print("The node you are looking for is not in the graph. Try another one.")
-    
+        print("The node you are looking for is not in the graph. Try another")
+
     stack = [node]
     # list that stores the nodes
     result = []
@@ -203,18 +218,27 @@ def find_subgraph(node, graph, draw_graph=True, save_graph=False):
     # possibly make this a method later if reused
     while(stack):
         for i in graph.edges():
-            if(stack[-1] == i[0]):
+            if(stack[0] == i[0]):
                 result.append(i)
+                # need to do this
                 stack.append(i[1])
+        stack.pop(0)
 
-    # see if we can make a temporary color dic
-    
-    
     # build the graph
+    N = nx.Graph()
+    N.add_edges_from(result)
+
+    # create a color dictionary here
+    # TODO: figure out how to split imports later
+    color_dic = {'green': [node], 'biscuit': []}
+
+    for i in N.nodes():
+        if(i != node):
+            color_dic['biscuit'].append(i)
+
+    # draw the graph
     if(draw_graph):
-        pass
+        draw_graph_colored(N, color_dic)
 
-
-# Add a method to go back to the full tree
-
-# Add a method to make dispaly the tree
+    if(save_graph):
+        return node
