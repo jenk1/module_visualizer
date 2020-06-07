@@ -1,171 +1,114 @@
-import networkx as nx
+import module_visualizer.helper as helper
 import matplotlib.pyplot as plt
+import networkx as nx
 
 
-def clean_filename(file):
-    """Removes the filename extension"""
+def draw_graph_colored(graph, color_dic):
+    """Draws a graph with colored node_list
 
-    return file.split('.')[0]
+    Add longer summary here
 
-
-def clean_imports(lst):
-    """Add the documentation later Comment"""
-
-    mod_lst = []
-
-    while(lst != []):
-        if(',' in lst[0]):
-            if(lst[0][0:6] == 'import'):
-                temp_ = lst[0][6:].split(',')
-                for i in temp_:
-                    lst.append('import ' + i)
-
-                lst[0] = 'Fixed'
-
-            if(lst[0][0:4] == 'from'):
-                temp_ = lst[0].split('import')
-                part_1 = temp_[0]
-                part_2 = temp_[1].lstrip().rstrip().split(',')
-                for i in part_2:
-                    lst.append(str(part_1) + ' import ' + str(i))
-
-                lst[0] = 'Fixed'
-
-        temp = lst[0].split()
-
-        if(len(temp) == 2 and temp[0] == 'import'):
-            mod_lst.append(temp[1])
-            lst[0] = 'Fixed'
-
-        elif(len(temp) == 4 and temp[0] == 'import' and temp[2] == 'as'):
-            mod_lst.append(temp[1])
-            lst[0] = 'Fixed'
-
-        elif(len(temp) == 4 and temp[0] == 'from'):
-            if(temp[3] != '*'):
-                mod_lst.append(str(temp[1]) + '.' + str(temp[3]))
-            else:
-                mod_lst.append(str(temp[1]))
-            lst[0] = 'Fixed'
-
-        del lst[0]
-
-    return mod_lst
-
-
-def color_key_dic(dictionary):
-    """Switches dict keys and values
-
-    Takes in a dictioary with colors as keys
-    and a list of nodes that are under the
-    color as a value and returns a new dictionary
-    where the keys are the nodes and the colors
-    are the values
-
-    Args:
-        dictionary (dict): dictionary with colors as keys and nodes as values
-    Returns:
-        new_dict (dict): new dictionary with keys and values switched
-    """
-    new_dict = {}
-
-    for colors in dictionary.keys():
-        lst = dictionary[colors]
-
-        for node in lst:
-            new_dict[node] = colors
-
-    return new_dict
-
-
-def color_val_dic(dictionary):
-    """Switches dict keys and values
-
-    Switches the values of the dictioary which
-    are colors and returns it where the keys
-    are the colors and the values are lists of
-    the nodes
-
-    Args:
-        dictionary (dict): dictionary with nodes as values and colors as keys
-    Returns:
-        new_dict (dict): new dictionary with keys and values switched
-    """
-    new_dict = {}
-
-    # makes an empty list for each color
-    for color in dictionary.values():
-        new_dict[color] = []
-
-    # adds the node to the corresponding color
-    for node in dictionary.keys():
-        new_dict[dictionary[node]].append(node)
-
-    return new_dict
-
-
-def create_color_key_dic(file, node_list, graph):
-    """Assigns nodes to a color depending on their location and builds graph
-
-    This method assigns all the nodes to one of three colors.
-    The "root" node is the value for the green key. The nodes that
-    are intermediate between the "root" and the leaf (actual imports)
-    are yellow and the imports are the red ones
-
-    Args:
-        file (str): name of python file
-        node_list (str): list of nodes reporesenting imported modules
-        graph: networkx graph
-    Returns:
-        color_dic (dict): Dictionary of colors and respective nodes
+    Args fix the stuff here as well:
+    graph is the networkx graph
+    color_list is the dictioary where you know which colors go with each node
     """
 
-    color_dic = {'green': [clean_filename(file)], 'yellow': [], 'red': []}
+    node_list = list(graph.nodes())
+    color_list = []
+
+    color_dic = helper.color_key_dic(color_dic)
 
     for i in node_list:
-        if('.' in i):
-            temp = i.split('.')
-            graph.add_edge(file[:-3], temp[0])
-            color_dic['red'].append(temp[-1])
-            for j in range(0, len(temp)-1):
-                graph.add_edge(temp[j], temp[j+1])
-                color_dic['yellow'].append(temp[j])
-        else:
-            graph.add_edge(file[:-3], i)
-            color_dic['red'].append(i)
+        if(color_dic[i] == 'green'):
+            color_list.append('g')
+        elif(color_dic[i] == 'yellow'):
+            color_list.append('y')
+        elif(color_dic[i] == 'red'):
+            color_list.append('r')
 
-    return color_dic
+    # used by the draw_networkx method
+    nx.draw_networkx(graph, with_labels=True, nodelist=node_list,
+                     node_color=color_list)
+    plt.show()
 
 
-def create_color_val_dic(file, node_list, graph):
-    """Assigns colors to each node depending on their location
+def draw_graph_default(graph):
+    """Draw the default networkx graph"""
 
-    This method assigns all the nodes to one of three colors.
-    The "root" node is the key for the green color value. The color
-    yellow is assigned to the nodes that are intermediate between the
-    "root" and the leaf (actual imports) have the red color assined to them
+    nx.draw_networkx(graph, with_labels=True)
+    plt.show()
 
-    Args:
-        file (str): name of python file
-        node_list (str): list of nodes reporesenting imported modules
-        graph: networkx graph
-    Returns:
-        color_dic (dict): Dictionary of nodes with their respective colors
+
+def gather_nodes(filename):
+    """Summary
+
+    Takes a file as input and from there
+    processes the file so that the output is a list of
+    all the possible nodes as well as their paths
+    an example of this would be having numpy and linspace
+    as the two nodes in the graph and it would be dispalyed in the
+    list as numpy.linspace
     """
 
-    color_dic = {clean_filename(file): 'green'}
+    # process the file
+    with open(filename) as f:
+        content = f.readlines()
 
-    # Needs some work
-    for i in node_list:
-        if('.' in i):
-            temp = i.split('.')
-            graph.add_edge(file[:-3], temp[0])
-            color_dic[temp[-1]] = 'red'
-            for j in range(0, len(temp)-1):
-                graph.add_edge(temp[j], temp[j+1])
-                color_dic[temp[j]] = 'yellow'
-        else:
-            graph.add_edge(file[:-3], i)
-            color_dic[i] = 'red'
+    # remove any extra whitespace from both ends
+    content = [i.lstrip().rstrip() for i in content]
 
-    return color_dic
+    # gather just the import lines
+    all_imports = [line for line in content if line[0:6] == 'import' or
+                   line[0:4] == 'from']
+
+    list_of_nodes = helper.clean_imports(all_imports)
+
+    return list_of_nodes
+
+
+def find_subgraph(node, graph, draw_graph=True, save_graph=False):
+    """ Shows the subgraph of a larger graph given a node
+
+    """
+
+    # Later exception handle this too for node not in Graph
+    if(node not in graph.nodes()):
+        print("The node you are looking for is not in the graph. Try another")
+
+    stack = [node]
+
+    # the list that stores the noes
+    result = []
+
+    # possibly make this a method later if reused
+    while(stack):
+        for i in graph.edges():
+            if(stack[0] == i[0]):
+                result.append(i)
+                stack.append(i[1])
+        stack.pop(0)
+
+    # build the new graph
+    N = nx.Graph()
+    N.add_edges_from(result)
+
+    # create a color dictionary here
+    # TODO: figure out how to split imports later
+    color_dic = {'green': [node], 'biscuit': []}
+
+    for i in N.nodes():
+        if(i != node):
+            color_dic['biscuit'].append(i)
+
+    # draw the graph
+    if(draw_graph):
+        draw_graph_colored(N, color_dic)
+
+    if(save_graph):
+        return N
+
+"""
+if __name__ == "__main__":
+    
+    # do the stuff here you want to do
+"""
