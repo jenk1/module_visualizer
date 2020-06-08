@@ -1,6 +1,7 @@
-import module_visualizer.helper as helper
+import helper
 import matplotlib.pyplot as plt
 import networkx as nx
+from os import path
 
 
 def draw_graph_colored(graph, color_dic):
@@ -107,8 +108,17 @@ def find_subgraph(node, graph, draw_graph=True, save_graph=False):
     if(save_graph):
         return N
 
-"""
 if __name__ == "__main__":
+
+    boolean = True
+    while(boolean):
+        filepath = input("Provide the path for the filename in question?")
+        if(filepath[-3:] == ".py" and path.exists(filepath)):
+            boolean = False
     
-    # do the stuff here you want to do
-"""
+    print("The filepath is: " + filepath)
+    print("The name of the python file you want to work with is " 
+    + helper.clean_filepath(filepath))
+    print("The name of the file is " + 
+    helper.clean_filename(helper.clean_filename(
+        helper.clean_filepath(filepath))))
