@@ -8,6 +8,12 @@ def clean_filename(file):
     return file.split('.')[0]
 
 
+def clean_filepath(path):
+    """Removes the path and returns python file"""
+
+    return path.split("/")[-1]
+
+
 def clean_imports(lst):
     """Add the documentation later Comment"""
 
