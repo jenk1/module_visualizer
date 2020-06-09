@@ -108,8 +108,8 @@ def find_subgraph(node, graph, draw_graph=True, save_graph=False):
     if(save_graph):
         return N
 
-if __name__ == "__main__":
 
+def main():
     boolean = True
     while(boolean):
         filepath = input("Provide the path for the filename in question?")
@@ -117,8 +117,14 @@ if __name__ == "__main__":
             boolean = False
     
     print("The filepath is: " + filepath)
-    print("The name of the python file you want to work with is " 
-    + helper.clean_filepath(filepath))
-    print("The name of the file is " + 
-    helper.clean_filename(helper.clean_filename(
-        helper.clean_filepath(filepath))))
+    
+    list_of_nodes = gather_nodes(filepath)
+    graph = nx.Graph()
+    colors = helper.create_color_key_dic(helper.clean_filepath(filepath),
+     list_of_nodes, graph)
+
+    draw_graph_colored(graph, colors)
+
+
+if __name__ == "__main__":
+    main()
