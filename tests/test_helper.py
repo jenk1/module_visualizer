@@ -1,10 +1,15 @@
-from module_visualizer.module_visualizer import helper
+import module_visualizer.helper as helper
 import networkx as nx
 import pytest
 
 
 def test_clean_filename():
     assert helper.clean_filename("testfile.py") == "testfile"
+
+
+def test_clean_filepath():
+    assert helper.clean_filepath("../documents/testfile.py") == "testfile.py"
+    assert helper.clean_filepath("main.py") == "main.py"
 
 
 def test_clean_imports():
@@ -36,8 +41,14 @@ def test_create_color_val_dic():
 
 
 def test_color_key_dic():
-    pass
+    test_dict = {'green': [1,2,3,4], 'blue': [9,7], 'purple': [5,6,8]}
+    ans_dict = {1: 'green', 2: 'green', 3: 'green', 4: 'green',
+        5: 'purple', 6: 'purple', 8: 'purple', 9: 'blue', 7: 'blue'}
+    assert helper.color_key_dic(test_dict) == ans_dict
 
 
 def test_color_val_dic():
-    pass
+    test_dict = {1: 'green', 2: 'green', 3: 'green', 4: 'green',
+        5: 'purple', 6: 'purple', 7: 'blue', 8: 'blue', 9:'purple'}
+    ans_dict = {'green': [1,2,3,4], 'purple': [5,6,9], 'blue': [7,8]}
+    assert helper.color_val_dic(test_dict) == ans_dict
