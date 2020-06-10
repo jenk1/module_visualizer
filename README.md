@@ -1,2 +1,10 @@
 # module_visualizer
-This package allows someone to take python source code and visualizes how each file depends on each other and what imports it uses 
+
+Module visualizer creates a network graph for a python file or python package (will be uplaoded soon after some bug fixes) based on its imports. 
+
+** Ongoing project so expect new updates soon **
+
+### TODO
+- [ ] Upload mehtod for visualizing python package after bug fix
+- [] Add gui
+- [] Add interactivity to network graph
