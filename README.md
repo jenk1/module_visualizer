@@ -9,3 +9,4 @@ Module visualizer creates a network graph for a python file or python package (w
 - [ ] Add gui
 - [ ] Add interactivity to network graph
 - [ ] Generate docuementation
+- [ ] Add support for Javascript
