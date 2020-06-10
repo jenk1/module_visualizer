@@ -6,5 +6,5 @@ Module visualizer creates a network graph for a python file or python package (w
 
 ### TODO
 - [ ] Upload mehtod for visualizing python package after bug fix
-- [] Add gui
-- [] Add interactivity to network graph
+- [ ] Add gui
+- [ ] Add interactivity to network graph
