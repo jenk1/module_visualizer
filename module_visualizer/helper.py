@@ -98,3 +98,37 @@ def gather_nodes(filename):
     list_of_nodes = helper.clean_imports(all_imports)
 
     return list_of_nodes
+
+def find_subgraph(node, graph, draw_graph=True, save_graph=False):
+    """ Shows the subgraph of a larger graph given a node
+
+    """
+
+    # Later exception handle this too for node not in Graph
+    if(node not in graph.nodes()):
+        print("The node you are looking for is not in the graph. Try another")
+
+    stack = [node]
+
+    # the list that stores the noes
+    result = []
+
+    # possibly make this a method later if reused
+    while(stack):
+        for i in graph.edges():
+            if(stack[0] == i[0]):
+                result.append(i)
+                stack.append(i[1])
+        stack.pop(0)
+
+    # build the new graph
+    N = nx.Graph()
+    N.add_edges_from(result)
+
+    # draw the graph
+    if(draw_graph):
+        nx.draw_networkx(N)
+        plt.show()
+
+    if(save_graph):
+        return N
