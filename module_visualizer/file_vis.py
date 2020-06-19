@@ -1,5 +1,3 @@
-# need to serious fix this 
-
 import helper
 import matplotlib.pyplot as plt
 import networkx as nx
@@ -31,48 +29,6 @@ def draw_graph_colored(graph, color_dic):
     nx.draw_networkx(graph, with_labels=True, nodelist=node_list,
                      node_color=color_list)
     plt.show()
-
-
-def find_subgraph(node, graph, draw_graph=True, save_graph=False):
-    """ Shows the subgraph of a larger graph given a node
-
-    """
-
-    # Later exception handle this too for node not in Graph
-    if(node not in graph.nodes()):
-        print("The node you are looking for is not in the graph. Try another")
-
-    stack = [node]
-
-    # the list that stores the noes
-    result = []
-
-    # possibly make this a method later if reused
-    while(stack):
-        for i in graph.edges():
-            if(stack[0] == i[0]):
-                result.append(i)
-                stack.append(i[1])
-        stack.pop(0)
-
-    # build the new graph
-    N = nx.Graph()
-    N.add_edges_from(result)
-
-    # create a color dictionary here
-    # TODO: figure out how to split imports later
-    color_dic = {'green': [node], 'biscuit': []}
-
-    for i in N.nodes():
-        if(i != node):
-            color_dic['biscuit'].append(i)
-
-    # draw the graph
-    if(draw_graph):
-        draw_graph_colored(N, color_dic)
-
-    if(save_graph):
-        return N
 
 
 def color_key_dic(dictionary):
@@ -190,24 +146,3 @@ def create_color_val_dic(file, node_list, graph):
             color_dic[i] = 'red'
 
     return color_dic
-
-
-def main():
-    boolean = True
-    while(boolean):
-        filepath = input("Provide the path for the filename in question?")
-        if(filepath[-3:] == ".py" and path.exists(filepath)):
-            boolean = False
-    
-    print("The filepath is: " + filepath)
-    
-    list_of_nodes = helper.gather_nodes(filepath)
-    graph = nx.Graph()
-    colors = helper.create_color_key_dic(helper.clean_filepath(filepath),
-     list_of_nodes, graph)
-
-    draw_graph_colored(graph, colors)
-
-
-if __name__ == "__main__":
-    main()
