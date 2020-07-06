@@ -8,7 +8,7 @@ rcParams['figure.figsize'] = 26, 18
 
 
 def fill_graph(node_list, file, graph):
-    """Takes a list of nodes and adds them to the ntwork graph"""
+    """Takes a list of nodes and adds them to the network graph"""
 
     for i in node_list:
         if('.' in i):
@@ -23,7 +23,6 @@ def fill_graph(node_list, file, graph):
 def get_files(path):
     """Gathers all python files from a folder"""
 
-    # first do some error checking
     # Set up dict with file as key and path as value
     name_path_dict = {}
 
