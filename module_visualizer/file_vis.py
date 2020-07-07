@@ -6,7 +6,11 @@ from os import path
 def draw_graph_colored(graph, color_dic):
     """Draws a graph with colored node_list
 
-    Add longer summary here
+    This method will allow you to color the graph using
+    three colors. The python file you chose will be colored green,
+    and the direct imports will be colored red. Now in the case of the example
+    from numpy import linspace, numpy will be labeled yellow and linspace will be
+    labeled red.
 
     Args fix the stuff here as well:
     graph is the networkx graph
@@ -15,15 +19,16 @@ def draw_graph_colored(graph, color_dic):
 
     node_list = list(graph.nodes())
     color_list = []
-
-    color_dic = color_key_dic(color_dic)
+    
+    # make sure color_dict has right format
+    color_dict = color_key_dict(color_dic)
 
     for i in node_list:
-        if(color_dic[i] == 'green'):
+        if(color_dict[i] == 'green'):
             color_list.append('g')
-        elif(color_dic[i] == 'yellow'):
+        elif(color_dict[i] == 'yellow'):
             color_list.append('y')
-        elif(color_dic[i] == 'red'):
+        elif(color_dict[i] == 'red'):
             color_list.append('r')
 
     nx.draw_networkx(graph, with_labels=True, nodelist=node_list,
@@ -31,7 +36,7 @@ def draw_graph_colored(graph, color_dic):
     plt.show()
 
 
-def color_key_dic(dictionary):
+def color_key_dict(dictionary):
     """Switches dict keys and values
 
     Takes in a dictioary with colors as keys
