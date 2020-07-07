@@ -61,7 +61,7 @@ def color_key_dict(dictionary):
     return new_dict
 
 
-def color_val_dic(dictionary):
+def color_val_dict(dictionary):
     """Switches dict keys and values
 
     Switches the values of the dictioary which
