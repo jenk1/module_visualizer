@@ -32,23 +32,53 @@ def test_clean_imports():
  'tiktok_bot.models.user.UserProfile']
 
 
-def test_create_color_key_dic():
-    pass
+def test_gather_nodes():
+    assert helper.gather_nodes('testerfile.py') == ['sys', 'typing.List', 'loguru.logger', 'typing_extensions.Literal',
+ 'tiktok_bot.api.TikTokAPI', 'tiktok_bot.models.feed.ListFeedRequest', 'tiktok_bot.models.post.Post',
+ 'tiktok_bot.models.search.ChallengeInfo', 'pandas', 'numpy.linspace', 'numpy.diagonal', 'pandas.dataframe',
+ 'pandas.series', 'tensorflow', 'pytorch', 'keras', 'tiktok_bot.models.category.Category', 
+ 'tiktok_bot.models.category.ListCategoriesRequest', 'tiktok_bot.models.feed_enums.FeedType', 
+ 'tiktok_bot.models.feed_enums.PullType', 'tiktok_bot.models.user.CommonUserDetails',
+ 'tiktok_bot.models.user.UserProfile']
 
 
-def test_create_color_val_dic():
-    pass
+def test_find_subgraph():
+    # TODO: do some error checking in the future. For now aassume
+    # correct input
+    
+    # A is the full graph
+    A = nx.Graph()
+    A.add_edge("top", "blue1")
+    A.add_edge("top", "blue2")
+    A.add_edge("blue1", "1")
+    A.add_edge("blue1", "2")
+    A.add_edge("blue1", "3")
+    A.add_edge("blue2", "4")
+    A.add_edge("1", "6")
+    A.add_edge("3", "5")
+    A.add_edge("5", "7")
+    A.add_edge("5", "8")
 
+    # B is a subgraph
+    B = nx.Graph()
+    B.add_edge("5", "7")
+    B.add_edge("5", "8")
 
-def test_color_key_dic():
-    test_dict = {'green': [1,2,3,4], 'blue': [9,7], 'purple': [5,6,8]}
-    ans_dict = {1: 'green', 2: 'green', 3: 'green', 4: 'green',
-        5: 'purple', 6: 'purple', 8: 'purple', 9: 'blue', 7: 'blue'}
-    assert helper.color_key_dic(test_dict) == ans_dict
+    # C is another subgraph
+    C = nx.Graph()
+    C.add_node('2')
 
-
-def test_color_val_dic():
-    test_dict = {1: 'green', 2: 'green', 3: 'green', 4: 'green',
-        5: 'purple', 6: 'purple', 7: 'blue', 8: 'blue', 9:'purple'}
-    ans_dict = {'green': [1,2,3,4], 'purple': [5,6,9], 'blue': [7,8]}
-    assert helper.color_val_dic(test_dict) == ans_dict
+    # D is another subgraph
+    D = nx.Graph()
+    D.add_edge("blue1", "1")
+    D.add_edge("blue1", "2")
+    D.add_edge("blue1", "3")
+    D.add_edge("1", "6")
+    D.add_edge("3", "5")
+    D.add_edge("5", "7")
+    D.add_edge("5", "8")
+    
+    assert list(helper.find_subgraph("top", A, False, True).edges()) == list(A.edges())
+    assert list(helper.find_subgraph("5", A, False, True).edges()) == list(B.edges()) 
+    assert list(helper.find_subgraph("2", A, False, True).edges()) == list(C.edges()) 
+    assert list(helper.find_subgraph("blue1", A, False, True).edges()) == list(D.edges())
