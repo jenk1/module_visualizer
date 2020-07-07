@@ -87,7 +87,7 @@ def color_val_dict(dictionary):
     return new_dict
 
 
-def create_color_key_dic(file, node_list, graph):
+def create_color_key_dict(file, node_list, graph):
     """Assigns nodes to a color depending on their location and builds graph
 
     This method assigns all the nodes to one of three colors.
@@ -103,21 +103,21 @@ def create_color_key_dic(file, node_list, graph):
         color_dic (dict): Dictionary of colors and respective nodes
     """
 
-    color_dic = {'green': [helper.clean_filename(file)], 'yellow': [], 'red': []}
+    color_dict = {'green': [helper.clean_filename(file)], 'yellow': [], 'red': []}
 
     for i in node_list:
         if('.' in i):
             temp = i.split('.')
             graph.add_edge(file[:-3], temp[0])
-            color_dic['red'].append(temp[-1])
+            color_dict['red'].append(temp[-1])
             for j in range(0, len(temp)-1):
                 graph.add_edge(temp[j], temp[j+1])
-                color_dic['yellow'].append(temp[j])
+                color_dict['yellow'].append(temp[j])
         else:
             graph.add_edge(file[:-3], i)
-            color_dic['red'].append(i)
+            color_dict['red'].append(i)
 
-    return color_dic
+    return color_dict
 
 
 def create_color_val_dic(file, node_list, graph):
