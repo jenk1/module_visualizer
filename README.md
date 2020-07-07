@@ -5,8 +5,7 @@ Module visualizer creates a network graph for a python file or python package (w
 ** Ongoing project so expect new updates soon **
 
 ### TODO
-- [ ] Upload mehtod for visualizing python package after bug fix
 - [ ] Add gui
 - [ ] Add interactivity to network graph
 - [ ] Generate docuementation
-- [ ] Add support for Javascript
+- [ ] Refactor and upload support for Javascript
