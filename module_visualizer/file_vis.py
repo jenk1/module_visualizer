@@ -3,18 +3,19 @@ import matplotlib.pyplot as plt
 import networkx as nx
 from os import path
 
-def draw_graph_colored(graph, color_dic):
-    """Draws a graph with colored node_list
 
-    This method will allow you to color the graph using
-    three colors. The python file you chose will be colored green,
-    and the direct imports will be colored red. Now in the case of the example
-    from numpy import linspace, numpy will be labeled yellow and linspace will be
+def draw_graph_colored(graph, color_dic):
+    """Draws a colored network graph
+
+    This method will allow you to color the graph using three colors. The
+    python file you chose will be colored green, and the direct imports will
+    be colored red. Now in the case of the example from "numpy import
+    linspace", numpy will be labeled yellow and linspace will be
     labeled red.
 
-    Args fix the stuff here as well:
-    graph is the networkx graph
-    color_list is the dictioary where you know which colors go with each node
+    Args:
+        graph: a networkx graph
+        color_dic: dictionary containing nodes and their corresponding colors
     """
 
     node_list = list(graph.nodes())
@@ -24,11 +25,11 @@ def draw_graph_colored(graph, color_dic):
     color_dict = color_key_dict(color_dic)
 
     for i in node_list:
-        if(color_dict[i] == 'green'):
+        if color_dict[i] == 'green':
             color_list.append('g')
-        elif(color_dict[i] == 'yellow'):
+        elif color_dict[i] == 'yellow':
             color_list.append('y')
-        elif(color_dict[i] == 'red'):
+        elif color_dict[i] == 'red':
             color_list.append('r')
 
     nx.draw_networkx(graph, with_labels=True, nodelist=node_list,
@@ -39,17 +40,17 @@ def draw_graph_colored(graph, color_dic):
 def color_key_dict(dictionary):
     """Switches dict keys and values
 
-    Takes in a dictioary with colors as keys
-    and a list of nodes that are under the
-    color as a value and returns a new dictionary
-    where the keys are the nodes and the colors
-    are the values
+    Takes in a dictionary with colors as keys and a list of nodes that are
+    under the color as a value and returns a new dictionary where they keys
+    are the nodes and the colors are the values
 
     Args:
-        dictionary (dict): dictionary with colors as keys and nodes as values
+        dictionary: dictionary with colors as keys and nodes as values
+
     Returns:
-        new_dict (dict): new dictionary with keys and values switched
+        A new dictionary with keys and values switched
     """
+
     new_dict = {}
 
     for colors in dictionary.keys():
