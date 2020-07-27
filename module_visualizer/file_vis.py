@@ -22,7 +22,7 @@ def draw_graph_colored(graph, color_dic):
     color_list = []
     
     # make sure color_dict has right format
-    color_dict = color_key_dict(color_dic)
+    color_dict = switch_to_color_val_dict(color_dic)
 
     for i in node_list:
         if color_dict[i] == 'green':
@@ -37,39 +37,15 @@ def draw_graph_colored(graph, color_dic):
     plt.show()
 
 
-def color_key_dict(dictionary):
-    """Switches dict keys and values
+def switch_to_color_key_dict(dictionary):
+    """Switches the colors from the values to the keys in a dictionary
 
-    Takes in a dictionary with colors as keys and a list of nodes that are
-    under the color as a value and returns a new dictionary where they keys
-    are the nodes and the colors are the values
-
-    Args:
-        dictionary: dictionary with colors as keys and nodes as values
-
-    Returns:
-        A new dictionary with nodes as keys and colors as values
-    """
-
-    new_dict = {}
-
-    for colors in dictionary.keys():
-        lst = dictionary[colors]
-
-        for node in lst:
-            new_dict[node] = colors
-
-    return new_dict
-
-
-def color_val_dict(dictionary):
-    """Switches dict keys and values
-
-    Switches the values of the dictionary which are colors and returns it
-    where the keys are the colors and the values are lists of the nodes
+    Takes in a dictionary with nodes as keys and colors as values and switches
+    so that the new dictionary has the colors as the keys and the nodes as the
+    values
 
     Args:
-        dictionary: dictionary with nodes as keys and colors as values
+        dictionary: dictionary with nodes as key and colors as values
 
     Returns:
         A dictionary with colors as keys and nodes as values
@@ -84,6 +60,30 @@ def color_val_dict(dictionary):
     # adds the node to the corresponding color
     for node in dictionary.keys():
         new_dict[dictionary[node]].append(node)
+
+    return new_dict
+
+
+def switch_to_color_val_dict(dictionary):
+    """Switches the colors from the keys to the values
+
+    Switches the keys and values of a dictionary so that the new dictionary
+    has the nodes as the keys and the colors as the values
+
+    Args:
+        dictionary: dictionary with colors as keys and nodes as values
+
+    Returns:
+        A dictionary with nodes as keys and colors as the values
+    """
+
+    new_dict = {}
+
+    for colors in dictionary.keys():
+        lst = dictionary[colors]
+
+        for node in lst:
+            new_dict[node] = colors
 
     return new_dict
 
