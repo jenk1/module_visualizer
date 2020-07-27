@@ -7,9 +7,9 @@ def test_clean_filename():
     assert helper.clean_filename("testfile.py") == "testfile"
 
 
-def test_clean_filepath():
-    assert helper.clean_filepath("../documents/testfile.py") == "testfile.py"
-    assert helper.clean_filepath("main.py") == "main.py"
+def test_clean_file_path():
+    assert helper.clean_file_path("../documents/testfile.py") == "testfile.py"
+    assert helper.clean_file_path("main.py") == "main.py"
 
 
 def test_clean_imports():
@@ -43,9 +43,6 @@ def test_gather_nodes():
 
 
 def test_find_subgraph():
-    # TODO: do some error checking in the future. For now aassume
-    # correct input
-    
     # A is the full graph
     A = nx.Graph()
     A.add_edge("top", "blue1")
@@ -59,16 +56,16 @@ def test_find_subgraph():
     A.add_edge("5", "7")
     A.add_edge("5", "8")
 
-    # B is a subgraph
+    # B is a sub-graph
     B = nx.Graph()
     B.add_edge("5", "7")
     B.add_edge("5", "8")
 
-    # C is another subgraph
+    # C is another sub-graph
     C = nx.Graph()
     C.add_node('2')
 
-    # D is another subgraph
+    # D is another sub-graph
     D = nx.Graph()
     D.add_edge("blue1", "1")
     D.add_edge("blue1", "2")
