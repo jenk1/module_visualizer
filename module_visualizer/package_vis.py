@@ -44,7 +44,7 @@ def get_files(path):
     name_path_dict = {}
 
     # get all the files from the folder
-    for (dirpath, dirnames, filenames) in walk(mypath):
+    for (dirpath, dirnames, filenames) in walk(path):
         for file in filenames:
             name_path_dict[file] = dirpath
 
