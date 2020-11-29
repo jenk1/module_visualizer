@@ -6,7 +6,8 @@ class GraphVisualizer:
     def __init__(self, path):
         self.path = path
         # Set up dict with file as key and path as value
-        self.name_path_dict = {}
+        self.name_path_dict = dict()
+
         print("We set up the class")
 
     def set_path(self, path):
@@ -30,19 +31,27 @@ class GraphVisualizer:
         # TODO add try except later and check to make sure path exists
 
         # get all the files from the folder
+
         for (dirpath, dirnames, filenames) in walk(self.path):
             for file in filenames:
                 if file.lstrip().rstrip()[-3:] == '.py' and file != '__init__.py':
                     self.name_path_dict[file] = dirpath
+
+    def gather_nodes(self):
+        pass
+
+    def clean_imports(self):
+        pass
 
 
 def main():
     path_ = input("Please enter a path that you want to investigate: ")
 
     a = GraphVisualizer(path_)
-    print(a.gather_files())
+    a.gather_files()
+    print(a.name_path_dict)
     print()
-    print(a.gather_files().keys())
+    print(a.name_path_dict.keys())
 
 
 if __name__ == '__main__':
