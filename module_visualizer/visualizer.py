@@ -1,4 +1,5 @@
 from os import walk
+import networkx as nx
 
 # C:\Users\Michael\Desktop\desktop0\Code_Project\module_visualizer\module_visualizer
 
@@ -9,6 +10,9 @@ class GraphVisualizer:
         self.path = path
         # Set up dict with file as key and path as value
         self.name_path_dict = dict()
+        self.name_nodes_dict = dict()
+        # make the graph
+        self.g = nx.DiGraph()
 
         print("We set up the class")
 
@@ -19,6 +23,7 @@ class GraphVisualizer:
         return self.path
 
     # Add a add, remove, and view methods for name_path_dict
+    # and name_nodes_dict
 
     def gather_files(self):
         """TODO fix the documentation here
@@ -58,8 +63,8 @@ class GraphVisualizer:
         with open(filename) as f:
             content = f.readlines()
 
-        # remove any extra whitespace from both ends
-        content = [i.lstrip().rstrip() for i in content]
+        # remove any extra whitespace from the end
+        content = [i.rstrip() for i in content]
 
         # gather just the import lines
         all_imports = [line for line in content if line[0:6] == 'import' or
@@ -89,6 +94,8 @@ class GraphVisualizer:
 
         mod_lst = []
 
+        # TODO fix the fact that it picks up documentation where it says
+        # import or from
         while import_list:
             if ',' in import_list[0]:
                 if import_list[0][0:6] == 'import':
@@ -126,7 +133,32 @@ class GraphVisualizer:
         return mod_lst
 
     def gather_all_nodes(self):
-        pass
+        """T"""
+        # right now assuming the dict is not empty
+        for key in self.name_path_dict.keys():
+            self.name_nodes_dict[key] = self.gather_nodes(
+                self.name_path_dict[key] + '/' + key)
+
+    def fill_graph(node_list, file, graph):
+        """Takes a list of nodes and adds them to the network graph
+
+        Args:
+            node_list: list of nodes
+            file: name of python file
+            graph: networkx graph
+
+        Returns:
+            Network graph
+        """
+
+        for i in node_list:
+            if '.' in i:
+                temp = i.split('.')
+                graph.add_edge(file[:-3], temp[0])
+                for j in range(0, len(temp)-1):
+                    graph.add_edge(temp[j], temp[j+1])
+            else:
+                graph.add_edge(file[:-3], i)
 
 
 def main():
@@ -139,7 +171,12 @@ def main():
     print(a.name_path_dict.keys())
     print()
     print()
-    print(a.gather_nodes(a.name_path_dict['helper.py'] + '//' + 'helper.py'))
+    print(a.gather_nodes(a.name_path_dict['helper.py'] + '/' + 'helper.py'))
+    print()
+    print(a.name_path_dict)
+    print()
+    a.gather_all_nodes()
+    print(a.name_nodes_dict)
     print()
 
 
