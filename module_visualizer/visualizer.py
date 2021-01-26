@@ -1,4 +1,5 @@
 from os import walk
+import matplotlib.pyplot as plt
 import networkx as nx
 
 
@@ -180,3 +181,7 @@ class GraphVisualizer:
                         self.g.add_edge(temp[j], temp[j+1])
                 else:
                     self.g.add_edge(file[:-3], node)
+
+    def draw_graph_default(self):
+        nx.draw_networkx(self.g, with_labels=True)
+        plt.show()
