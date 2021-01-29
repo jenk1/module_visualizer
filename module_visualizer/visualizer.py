@@ -149,9 +149,6 @@ class GraphVisualizer:
             node_list: list of nodes
             file: name of python file
             graph: networkx graph
-
-        Returns:
-            Network graph
         """
 
         for file in self.name_nodes_dict.keys():
