@@ -154,18 +154,6 @@ class GraphVisualizer:
             Network graph
         """
 
-        """
-        node_list, file, graph
-        for i in node_list:
-            if '.' in i:
-                temp = i.split('.')
-                graph.add_edge(file[:-3], temp[0])
-                for j in range(0, len(temp)-1):
-                    graph.add_edge(temp[j], temp[j+1])
-            else:
-                graph.add_edge(file[:-3], i)
-        """
-
         for file in self.name_nodes_dict.keys():
             # edge case of no dependencies and not connected to another node
             if self.name_nodes_dict[file] == list() and file[:-3] not in list(self.g):
