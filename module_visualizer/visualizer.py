@@ -16,11 +16,6 @@ class GraphVisualizer:
         self.name_nodes_dict = dict()
         self.g = nx.DiGraph()
 
-        print("We set up the class")
-
-    # don't believe we need a set path method right now
-    # if we do it we need to update graph though
-
     def get_path(self):
         return self.path
 
@@ -30,23 +25,14 @@ class GraphVisualizer:
     def get_graph_edges(self):
         return self.g.edges()
 
-    # Add a add, remove, and view methods for name_path_dict
-    # and name_nodes_dict
-
     def gather_files(self):
         """TODO fix the documentation here
 
         Args:
             path (str): path to desired folder
-
-        Returns:
-            Dictionary with python file as key and the path to it as the value
         """
 
-        # TODO add try except later and check to make sure path exists
-
         # get all the files from the folder
-
         for (dirpath, dirnames, filenames) in walk(self.path):
             for file in filenames:
                 if file.lstrip().rstrip()[-3:] == '.py' and file != '__init__.py':
@@ -143,13 +129,7 @@ class GraphVisualizer:
                 self.name_path_dict[key] + '/' + key)
 
     def fill_graph(self):
-        """Takes a list of nodes and adds them to the network graph
-
-        Args:
-            node_list: list of nodes
-            file: name of python file
-            graph: networkx graph
-        """
+        """Takes a list of nodes and adds them to the network graph"""
 
         for file in self.name_nodes_dict.keys():
             # edge case of no dependencies and not connected to another node
