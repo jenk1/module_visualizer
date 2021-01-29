@@ -2,6 +2,9 @@ from os import walk
 import matplotlib.pyplot as plt
 import networkx as nx
 
+import default_mods.built_in_modules as bim
+import third_party_mods.popular_third_party_libraries as tpm
+
 
 class GraphVisualizer:
 
@@ -11,7 +14,6 @@ class GraphVisualizer:
         self.name_path_dict = dict()
         # Set up dict with file as key and imports as values
         self.name_nodes_dict = dict()
-        # make the graph
         self.g = nx.DiGraph()
 
         print("We set up the class")
@@ -93,13 +95,10 @@ class GraphVisualizer:
 
         Returns:
             A list of strings that have the imports in standard format
-
         """
 
         mod_lst = []
 
-        # TODO fix the fact that it picks up documentation where it says
-        # import or from
         while import_list:
             if ',' in import_list[0]:
                 if import_list[0][0:6] == 'import':
@@ -184,4 +183,45 @@ class GraphVisualizer:
 
     def draw_graph_default(self):
         nx.draw_networkx(self.g, with_labels=True)
+        plt.show()
+
+    def draw_graph_colored(self):
+
+        file_list = [i[:-3] for i in self.name_path_dict.keys()]
+
+        # dictionary with colors for each library
+        # blue is b
+        # green is g
+        # red is r
+        # yellow is y
+        color_dict = {}
+
+        for i in self.g.edges():
+            if i[0] not in color_dict.keys():
+                if i[0] in bim:
+                    color_dict[i[0]] = 'g'
+                elif i[0] in tpl:
+                    color_dict[i[0]] = 'y'
+                elif i[0] in file_list:
+                    color_dict[i[0]] = 'b'
+
+            if i[1] not in color_dict.keys():
+                if i[1] in file_list:
+                    color_dict[i[1]] = 'b'
+                elif i[1] in bim:
+                    color_dict[i[1]] = 'g'
+                elif i[1] in tpl:
+                    color_dict[i[1]] = 'y'
+                else:
+                    color_dict[i[1]] = color_dict[i[0]]
+
+        # make the node and color list
+        node_list = []
+        color_list = []
+        for val in color_dict.keys():
+            node_list.append(val)
+            color_list.append(color_dict[val])
+
+        nx.draw_networkx(self.g, with_labels=True, nodelist=node_list,
+                         node_color=color_list)
         plt.show()
