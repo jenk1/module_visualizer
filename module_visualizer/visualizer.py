@@ -42,9 +42,9 @@ class GraphVisualizer:
     def gather_files(self):
         """Finds and saves all py files in the path
 
-        This method loops over all the files in the given path in order
-        to find all the files ending in .py, and stores those files
-        along with their path in the name_path_dict.
+        This method loops over all the files in the given path in order to
+        find all the files ending in .py, and stores those files along with
+        their path in the name_path_dict.
         """
 
         # get all the files from the folder
@@ -65,7 +65,8 @@ class GraphVisualizer:
             filename (str): The filename
 
         Returns:
-            A list of strings that contains all the nodes for the network graph
+            A list of strings that contains all the nodes that will eventually
+            end up in the network graph
         """
 
         # process the file
