@@ -7,8 +7,19 @@ import third_party_mods.popular_third_party_libraries as tpm
 
 
 class GraphVisualizer:
+    """Summary of class here
+
+    Longer class information
+
+    Attributes:
+        path (str): path where 
+        name_path_dict (dict): path to
+        name_nodes_dict (dict): path to
+        g (networkx graph): graph containing module dependencies
+    """
 
     def __init__(self, path):
+        """Inits GraphVisualizer class with path"""
         self.path = path
         # Set up dict with file as key and path as value
         self.name_path_dict = dict()
@@ -26,11 +37,7 @@ class GraphVisualizer:
         return self.g.edges()
 
     def gather_files(self):
-        """TODO fix the documentation here
-
-        Args:
-            path (str): path to desired folder
-        """
+        """TODO fix the documentation here"""
 
         # get all the files from the folder
         for (dirpath, dirnames, filenames) in walk(self.path):
