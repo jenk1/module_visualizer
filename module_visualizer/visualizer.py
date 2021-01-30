@@ -28,16 +28,24 @@ class GraphVisualizer:
         self.g = nx.DiGraph()
 
     def get_path(self):
+        """Returns path of python project"""
         return self.path
 
     def get_graph_nodes(self):
+        """Returns nodes in graph"""
         return self.g.nodes()
 
     def get_graph_edges(self):
+        """Returns edges in graph"""
         return self.g.edges()
 
     def gather_files(self):
-        """TODO fix the documentation here"""
+        """Finds and saves all py files in the path
+
+        This method loops over all the files in the given path in order
+        to find all the files ending in .py, and stores those files
+        along with their path in the name_path_dict.
+        """
 
         # get all the files from the folder
         for (dirpath, dirnames, filenames) in walk(self.path):
