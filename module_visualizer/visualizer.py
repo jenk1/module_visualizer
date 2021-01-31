@@ -57,9 +57,9 @@ class GraphVisualizer:
         """Gathers all imports that will be nodes for the graph
 
         Takes a file as input and from there processes the file so that the
-        output is a list of all the possible nodes as well as their paths. An
-        example of this would be having numpy and linspace as the two nodes in
-        the graph and it would be displayed in the list as numpy.linspace
+        output is a list of all the possible nodes. An example of this would 
+        be having numpy and linspace as the two nodes in the graph and it
+        would be displayed in the list as numpy.linspace
 
         Args:
             filename (str): The filename
@@ -69,7 +69,6 @@ class GraphVisualizer:
             end up in the network graph
         """
 
-        # process the file
         with open(filename) as f:
             content = f.readlines()
 
@@ -93,7 +92,7 @@ class GraphVisualizer:
         removes "as _" at the end of imports so there is no ambiguity.
 
         Args:
-            import_list (str): A list of strings from python file 
+            import_list (str): List of strings contaning imports from py file
 
         Returns:
             A list of strings that have the imports in standard format
@@ -102,6 +101,7 @@ class GraphVisualizer:
         mod_lst = []
 
         while import_list:
+            # split case where import a, b, into import a, import b
             if ',' in import_list[0]:
                 if import_list[0][0:6] == 'import':
                     temp_ = import_list[0][6:].split(',')
@@ -138,8 +138,8 @@ class GraphVisualizer:
         return mod_lst
 
     def gather_all_nodes(self):
-        """T"""
-        # right now assuming the dict is not empty
+        """Fill the """
+
         for key in self.name_path_dict.keys():
             self.name_nodes_dict[key] = self.gather_nodes(
                 self.name_path_dict[key] + '/' + key)
