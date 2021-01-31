@@ -57,9 +57,7 @@ class GraphVisualizer:
         """Gathers all imports that will be nodes for the graph
 
         Takes a file as input and from there processes the file so that the
-        output is a list of all the possible nodes. An example of this would 
-        be having numpy and linspace as the two nodes in the graph and it
-        would be displayed in the list as numpy.linspace
+        output is a list of all the possible nodes.
 
         Args:
             filename (str): The filename
