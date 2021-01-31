@@ -9,7 +9,7 @@ import third_party_mods.popular_third_party_libraries as tpm
 class GraphVisualizer:
     """Visualizes modules for a py project in a network graph
 
-    Longer class information
+    When working with 
 
     Attributes:
         path (str): path where 
@@ -20,6 +20,7 @@ class GraphVisualizer:
 
     def __init__(self, path):
         """Inits GraphVisualizer class with path"""
+
         self.path = path
         # Set up dict with file as key and path as value
         self.name_path_dict = dict()
@@ -29,14 +30,17 @@ class GraphVisualizer:
 
     def get_path(self):
         """Returns path of python project"""
+
         return self.path
 
     def get_graph_nodes(self):
         """Returns nodes in graph"""
+
         return self.g.nodes()
 
     def get_graph_edges(self):
         """Returns edges in graph"""
+
         return self.g.edges()
 
     def gather_files(self):
