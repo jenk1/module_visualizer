@@ -7,7 +7,7 @@ import third_party_mods.popular_third_party_libraries as tpm
 
 
 class GraphVisualizer:
-    """Summary of class here
+    """Visualizes modules for a py project in a network graph
 
     Longer class information
 
@@ -15,7 +15,7 @@ class GraphVisualizer:
         path (str): path where 
         name_path_dict (dict): path to
         name_nodes_dict (dict): path to
-        g (networkx graph): graph containing module dependencies
+        g (nx graph): graph containing imported modules for every py file
     """
 
     def __init__(self, path):
@@ -136,14 +136,14 @@ class GraphVisualizer:
         return mod_lst
 
     def gather_all_nodes(self):
-        """Fill the """
+        """Gather nodes for all files and puts them in name_path_dict"""
 
         for key in self.name_path_dict.keys():
             self.name_nodes_dict[key] = self.gather_nodes(
                 self.name_path_dict[key] + '/' + key)
 
     def fill_graph(self):
-        """Takes a list of nodes and adds them to the network graph"""
+        """Builds network graph from the name_modes_dict"""
 
         for file in self.name_nodes_dict.keys():
             # edge case of no dependencies and not connected to another node
@@ -161,18 +161,25 @@ class GraphVisualizer:
                     self.g.add_edge(file[:-3], node)
 
     def draw_graph_default(self):
+        """Plots a network graph of the dependencies without coloring nodes"""
+
         nx.draw_networkx(self.g, with_labels=True)
         plt.show()
 
     def draw_graph_colored(self):
+        """Plots a network graph of the dependent modules with colors
+
+        The colors for the graph show whether each node is part of the
+        project, part of the Python standard library, or a third-party
+        library.
+        * blue is b and represents the files in the project
+        * green is g and represents Python standard library
+        * yellow is y and represents a third-party library
+        In the case where you use linspace 
+        """
 
         file_list = [i[:-3] for i in self.name_path_dict.keys()]
 
-        # dictionary with colors for each library
-        # blue is b
-        # green is g
-        # red is r
-        # yellow is y
         color_dict = {}
 
         for i in self.g.edges():
