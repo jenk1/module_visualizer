@@ -7,9 +7,10 @@ import third_party_mods.popular_third_party_libraries as tpm
 
 
 class GraphVisualizer:
-    """Visualizes modules for a py project in a network graph
+    """Visualizes modules for a py project using a network graph
 
-    When working with 
+    This class allows someone to take python source code and visualizes how
+    each file depends on each other and what imports it uses 
 
     Attributes:
         path (str): path where 
